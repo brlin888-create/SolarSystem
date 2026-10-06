@@ -6,35 +6,133 @@
     <title>Solar System Explorer</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             background: #070b12;
-            color: white;
+            color: #e8edf5;
             font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-        }
-    
-        main {
-            padding: 50px;
         }
 
-        hl {
-            font-size: 40px;
+        header {
+            max-width: 1100px;
+            margin: auto;
+            padding: 28px 25px;
+            border-bottom: 1px solid #28303d;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
         }
 
-        p {
+        .header-left h1 {
+            margin: 0 0 5px;
+            font-size: 34px;
+        }
+
+        .header-left p {
+            margin: 0;
+            color: #8f9aaa;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        nav a {
             color: #aeb8c7;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 0;
+        }
+
+        nav a:hover {
+            color: #e8edf5;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        section {
+            padding: 55px 25px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 25px;
+        }
+
+        .section-description {
+            color: #8f9aaa;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.6;
         }
     </style>
 </head>
 
 <body>
+    <header>
+        <div class="header-left">
+            <h1>Solar System Explorer</h1>
+
+            <p>
+                An interactive website to learn more about YOUR Solar System
+                and where we are in space, submitted for the Stardance challenge!
+            </p>
+        </div>
+
+        <nav>
+            <a href="#animation">Animation</a>
+            <a href="#planets">Planets</a>
+            <a href="#questions">Questions</a>
+            <a href="#learn-more">Learn More</a>
+        </nav>
+    </header>
+
     <main>
-        <h1>Solar System Explorer</h1>
-        <p>
-            An interactive website to learn more about YOUR Solar System
-            and where we are in space, submitted for the Stardance challenge!
-        </p>
+
+        <section id="animation"
+            <h2>Interactive Solar System</h2>
+
+            <p class="section-description">
+                Explore the planets and watch them move around the Sun.
+                Click on a planet to learn more about it!
+            </p>
+        </section>
+
+        <section id="planets">
+            <h2>Planet Index</h2>
+            <p class="section-description">
+                Select a planet below to quickly view its information.
+            </p>
+        </section>
+
+        <section id="questions">
+            <h2>Questions</h2>
+            <p class="section-description">
+                Answer a few questions based on what you've learned.
+            </p>
+        </section>
+
+        <section id="learn-more">
+            <h2>Learn More</h2>
+        </section>
+
     </main>
 </body>
 </html>
