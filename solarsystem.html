@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Solar System Explorer | Stardance Project</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root {
+            --bg-deep: #090d16;
+            --bg-surface: #0f172a;
+            --bg-card: #1e293b;
+            --border-color: #334155;
+            --border-hover: #06b6d4;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent: #06b6d4;
+            --btn-bg: #1e293b;
+            --btn-hover: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: #0f172a;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .logo p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            background: #020617;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: var(--btn-hover);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: #020617;
+        }
+
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 32px auto;
+            padding: 0 24px;
+            flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Removed vertical accent line from section headers */
+        .section-header {
+            margin-bottom: 24px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-header-text h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .section-header-text p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .search-input {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            width: 220px;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+
+        .explorer-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .explorer-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .solar-viewport {
+            position: relative;
+            background: #020617;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            height: 560px;
+            overflow: hidden;
+        }
+
+        .controls-overlay {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 20;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .btn:hover {
+            border-color: var(--border-hover);
+            background: var(--btn-hover);
+        }
+
+        select.btn {
+            appearance: none;
+            padding-right: 28px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23cbd5e1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 8px) center;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        .sun {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 56px;
+            height: 56px;
+            margin: -28px 0 0 -28px;
+            border-radius: 50%;
+            background: #f59e0b;
+            border: 2px solid #fde047;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .orbit {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            border: 1px solid #334155;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .hide-orbits .orbit {
+            opacity: 0;
+        }
+
+        .planet {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .planet:hover, .planet.highlighted {
+            outline: 2px solid var(--accent);
+        }
+
+        .planet-label {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            background: #020617;
+            padding: 3px 6px;
+            border-radius: 4px;
+            opacity: 0;
+            pointer-events: none;
+            border: 1px solid var(--border-color);
+        }
+
+        .show-labels .planet-label {
+            opacity: 1;
+        }
+
+        .mercury { width: 10px; height: 10px; margin: -5px 0 0 -5px; background: #a1a1aa; }
+        .venus { width: 14px; height: 14px; margin: -7px 0 0 -7px; background: #fb923c; }
+        .earth { width: 16px; height: 16px; margin: -8px 0 0 -8px; background: #38bdf8; }
+        .mars { width: 12px; height: 12px; margin: -6px 0 0 -6px; background: #f87171; }
+        .jupiter { width: 26px; height: 26px; margin: -13px 0 0 -13px; background: #eab308; }
+        .saturn { width: 22px; height: 22px; margin: -11px 0 0 -11px; background: #fde047; }
+        .saturn::after {
+            content: "";
+            position: absolute;
+            width: 32px;
+            height: 10px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            border: 2px solid #fde047;
+            border-radius: 50%;
+        }
+        .uranus { width: 18px; height: 18px; margin: -9px 0 0 -9px; background: #2dd4bf; }
+        .neptune { width: 18px; height: 18px; margin: -9px 0 0 -9px; background: #60a5fa; }
+
+        .orbit1 { width: 90px; height: 90px; }
+        .orbit2 { width: 140px; height: 140px; }
+        .orbit3 { width: 200px; height: 200px; }
+        .orbit4 { width: 260px; height: 260px; }
+        .orbit5 { width: 330px; height: 330px; }
+        .orbit6 { width: 400px; height: 400px; }
+        .orbit7 { width: 460px; height: 460px; }
+        .orbit8 { width: 520px; height: 520px; }
+
+        .inspector {
+            background: var(--bg-surface);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .inspector h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .inspector p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .stat-card span {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-card strong {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .directory-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: border-color 0.2s, opacity 0.2s;
+        }
+
+        /* Mercury card no longer has special wide span or blue border highlight */
+        .directory-card:hover {
+            border-color: var(--accent);
+        }
+
+        .directory-card.hidden {
+            display: none;
+        }
+
+        .directory-card h3 {
+            font-size: 18px;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .directory-card .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            background: #020617;
+            color: var(--accent);
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .directory-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .quiz-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--bg-surface);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .quiz-question {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 14px 18px;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .quiz-btn:hover {
+            border-color: var(--accent);
+            background: var(--btn-hover);
+        }
+
+        .quiz-result {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 600;
+            min-height: 24px;
+        }
+
+        .about-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--bg-surface);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            line-height: 1.7;
+        }
+
+        .about-card h3 {
+            margin-bottom: 12px;
+            font-size: 20px;
+            color: var(--text-main);
+        }
+
+        .about-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 2px solid var(--border-color);
+            background: #0f172a;
+            margin-top: auto;
+        }
+
+        @media (max-width: 600px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .tabs {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <div class="header-container">
+
+            <div class="logo">
+
+                <h1>Solar System Explorer</h1>
+
+                <p>Stardance Challenge Project</p>
+
+            </div>
+
+            <nav class="tabs">
+
+                <button class="tab-btn active" data-target="explorer">Simulation</button>
+
+                <button class="tab-btn" data-target="directory">Directory</button>
+
+                <button class="tab-btn" data-target="quiz">Quiz</button>
+
+                <button class="tab-btn" data-target="about">About</button>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <section id="explorer" class="tab-content active">
+
+            <div class="section-header">
+
+                <div class="section-header-text">
+
+                    <h2>Interactive Planet Simulation</h2>
+
+                    <p>Watch a simulation of our solar system and click on any planet to learn more about it.</p>
+
+                </div>
+
+            </div>
+
+            <div class="explorer-layout">
+
+                <div class="solar-viewport" id="solarSystem">
+
+                    <div class="controls-overlay">
+
+                        <button class="btn" id="pauseButton">Pause</button>
+
+                        <select class="btn" id="speedSelect">
+
+                            <option value="0.5">0.5×</option>
+
+                            <option value="1" selected>1×</ Speed</option>
+
+                            <option value="2">2×</option>
+
+                            <option value="4">4×</option>
+
+                        </select>
+
+                        <button class="btn" id="labelButton">Toggle Labels</button>
+
+                        <button class="btn" id="orbitButton">Toggle Orbits</button>
+
+                    </div>
+
+                    <div class="orbit orbit1"></div>
+                    <div class="orbit orbit2"></div>
+                    <div class="orbit orbit3"></div>
+                    <div class="orbit orbit4"></div>
+                    <div class="orbit orbit5"></div>
+                    <div class="orbit orbit6"></div>
+                    <div class="orbit orbit7"></div>
+                    <div class="orbit orbit8"></div>
+
+                    <div class="sun" id="sun">
+                        <span class="planet-label">Sun</span>
+                    </div>
+                    <div class="planet mercury" data-name="Mercury">
+                        <span class="planet-label">Mercury</span>
+                    </div>
+                    <div class="planet venus" data-name="Venus">
+                        <span class="planet-label">Venus</span>
+                    </div>
+                    <div class="planet earth" data-name="Earth">
+                        <span class="planet-label">Earth</span>
+                    </div>
+                    <div class="planet mars" data-name="Mars">
+                        <span class="planet-label">Mars</span>
+                    </div>
+                    <div class="planet jupiter" data-name="Jupiter">
+                        <span class="planet-label">Jupiter</span>
+                    </div>
+                    <div class="planet saturn" data-name="Saturn">
+                        <span class="planet-label">Saturn</span>
+                    </div>
+                    <div class="planet uranus" data-name="Uranus">
+                        <span class="planet-label">Uranus</span>
+                    </div>
+                    <div class="planet neptune" data-name="Neptune">
+                        <span class="planet-label">Neptune</span>
+                    </div>
+
+                </div>
+
+                <div class="inspector" id="infoPanel">
+
+                    <h3 id="infoName">The Sun</h3>
+
+                    <p id="infoFact">The star at the center of our solar system, providing gravitational pull and energy to keep everything in orbit.</p>
+                    
+                    <div class="stats-grid">
+
+                        <div class="stat-card">
+                            <span>Classification</span>
+                            <strong id="infoType">Star</strong>
+                        </div>
+
+                        <div class="stat-card">
+                            <span>Diameter</span>
+                            <strong id="infoDiameter">1,391,000 km</strong>
+                        </div>
+
+                        <div class="stat-card">
+                            <span>Rotation</span>
+                            <strong id="infoDay">25-35 Days</strong>
+                        </div>
+
+                        <div class="stat-card">
+                            <span>Moons</span>
+                            <strong id="infoMoons">0</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="directory" class="tab-content">
+
+            <div class="section-header">
+
+                <div class="section-header-text">
+
+                    <h2>Planetary Directory</h2>
+
+                    <p>Browse through detailed descriptions of each body in our solar system.</p>
+
+                </div>
+
+                <input type="text" id="planetSearch" class="search-input" placeholder="Search planet...">
+
+            </div>
+
+            <div class="directory-grid" id="planetIndex"></div>
+
+        </section>
+
+        <section id="quiz" class="tab-content">
+
+            <div class="section-header">
+
+                <div class="section-header-text">
+
+                    <h2>Knowledge Check</h2>
+
+                    <p>Test your understanding of orbital and planetary facts.</p>
+
+                </div>
+
+            </div>
+
+            <div class="quiz-container">
+
+                <div class="quiz-question" id="quizQuestion">Loading question...</div>
+
+                <div class="quiz-options" id="quizOptions"></div>
+
+                <div class="quiz-result" id="quizResult"></div>
+
+            </div>
+
+        </section>
+
+        <section id="about" class="tab-content">
+
+            <div class="section-header">
+
+                <div class="section-header-text">
+
+                    <h2>About the Project</h2>
+
+                    <p>Learn more about the intent and background of this explorer.</p>
+
+                </div>
+
+            </div>
+
+            <div class="about-card">
+
+                <h3>Stardance Challenge</h3>
+
+                <p>This web application was created as an educational interactive exhibit for the Stardance challenge. It utilizes a simulation to provide a way for people to understand how the planets orbit and make learning more engaging!</p>
+
+                <p>All statistics and information are derived from standard planetary science reference materials.</p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        Solar System Explorer &bull; Built for the Stardance Challenge
+
+    </footer>
+
+    <script>
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(btn => {
+
+            btn.addEventListener('click', () => {
+
+                tabButtons.forEach(b => b.classList.remove('active'));
+
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                btn.classList.add('active');
+
+                document.getElementById(btn.dataset.target).classList.add('active');
+
+            });
+
+        });
+
+        const planetData = {
+
+            Mercury: { type: "Terrestrial planet", diameter: "4,879 km", day: "58.6 Days", moons: "0", fact: "The closest planet to the Sun and experiences extreme temperature fluctuations." },
+
+            Venus: { type: "Terrestrial planet", diameter: "12,104 km", day: "243 Days", moons: "0", fact: "Hottest planet in the solar system from runaway greenhouse effect." },
+
+            Earth: { type: "Terrestrial planet", diameter: "12,742 km", day: "24 Hours", moons: "1", fact: "The only known astronomical object confirmed to harbor life." },
+
+            Mars: { type: "Terrestrial planet", diameter: "6,779 km", day: "24.6 Hours", moons: "2", fact: "The Red Planet, home to Olympus Mons, the largest volcano in the system." },
+
+            Jupiter: { type: "Gas giant", diameter: "139,820 km", day: "9.9 Hours", moons: "95+", fact: "Massive gas giant featuring the iconic Great Red Spot storm." },
+
+            Saturn: { type: "Gas giant", diameter: "116,460 km", day: "10.7 Hours", moons: "146", fact: "Known for its extensive, complex ring system mostly of ice." },
+
+            Uranus: { type: "Ice giant", diameter: "50,724 km", day: "17.2 Hours", moons: "28", fact: "An ice giant that uniquely rotates almost completely on its side." },
+
+            Neptune: { type: "Ice giant", diameter: "49,244 km", day: "16.1 Hours", moons: "16", fact: "The windiest planet in our system with deep atmospheric bands." }
+
+        };
+
+        const solarSystemEl = document.getElementById("solarSystem");
+
+        for (let i = 0; i < 70; i++) {
+
+            const star = document.createElement("div");
+
+            star.className = "star";
+
+            star.style.left = Math.random() * 100 + "%";
+
+            star.style.top = Math.random() * 100 + "%";
+
+            star.style.opacity = 0.2 + Math.random() * 0.6;
+
+            solarSystemEl.appendChild(star);
+
+        }
+
+        const infoName = document.getElementById("infoName");
+
+        const infoFact = document.getElementById("infoFact");
+
+        const infoType = document.getElementById("infoType");
+
+        const infoDiameter = document.getElementById("infoDiameter");
+
+        const infoDay = document.getElementById("infoDay");
+
+        const infoMoons = document.getElementById("infoMoons");
+
+        function showPlanetInfo(name, data) {
+
+            infoName.textContent = name;
+
+            infoFact.textContent = data.fact;
+
+            infoType.textContent = data.type;
+
+            infoDiameter.textContent = data.diameter;
+
+            infoDay.textContent = data.day;
+
+            infoMoons.textContent = data.moons;
+
+        }
+
+        document.getElementById("sun").addEventListener("click", () => {
+
+            showPlanetInfo("The Sun", {
+
+                type: "Star",
+
+                diameter: "1,391,000 km",
+
+                day: "25-35 Days",
+
+                moons: "0",
+
+                fact: "The star at the center of our solar system, providing gravitational pull and energy to keep everything in orbit."
+
+            });
+
+        });
+
+        const planetsConfig = [
+
+            { name: "Mercury", el: document.querySelector(".mercury"), radius: 45, speed: 4.15, angle: 0 },
+
+            { name: "Venus", el: document.querySelector(".venus"), radius: 70, speed: 3.25, angle: 1 },
+
+            { name: "Earth", el: document.querySelector(".earth"), radius: 100, speed: 2.5, angle: 2 },
+
+            { name: "Mars", el: document.querySelector(".mars"), radius: 130, speed: 2.0, angle: 3 },
+
+            { name: "Jupiter", el: document.querySelector(".jupiter"), radius: 165, speed: 1.2, angle: 4 },
+
+            { name: "Saturn", el: document.querySelector(".saturn"), radius: 200, speed: 0.95, angle: 5 },
+
+            { name: "Uranus", el: document.querySelector(".uranus"), radius: 230, speed: 0.65, angle: 0.5 },
+
+            { name: "Neptune", el: document.querySelector(".neptune"), radius: 260, speed: 0.5, angle: 1.5 }
+
+        ];
+
+        planetsConfig.forEach(p => {
+
+            p.el.addEventListener("click", () => showPlanetInfo(p.name, planetData[p.name]));
+
+        });
+
+        const planetIndexContainer = document.getElementById("planetIndex");
+
+        Object.entries(planetData).forEach(([name, data]) => {
+
+            const card = document.createElement("div");
+
+            card.className = "directory-card";
+
+            card.dataset.name = name.toLowerCase();
+
+            card.innerHTML = `
+
+                <h3>${name}</h3>
+
+                <span class="badge">${data.type}</span>
+
+                <p>${data.fact}</p>
+
+            `;
+
+            card.addEventListener("click", () => {
+
+                showPlanetInfo(name, data);
+
+                tabButtons.forEach(b => b.classList.remove('active'));
+
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                document.querySelector('[data-target="explorer"]').classList.add('active');
+
+                document.getElementById('explorer').classList.add('active');
+
+            });
+
+            planetIndexContainer.appendChild(card);
+
+        });
+
+        const planetSearchInput = document.getElementById("planetSearch");
+
+        planetSearchInput.addEventListener("input", (e) => {
+
+            const query = e.target.value.toLowerCase().trim();
+
+            const cards = planetIndexContainer.querySelectorAll(".directory-card");
+
+            cards.forEach(card => {
+
+                const planetName = card.dataset.name;
+
+                if (planetName.includes(query)) {
+
+                    card.classList.remove("hidden");
+
+                } else {
+
+                    card.classList.add("hidden");
+
+                }
+
+            });
+
+        });
+
+        let paused = false;
+
+        let animationSpeed = 1;
+
+        let lastTime = performance.now();
+
+        function animate(currentTime) {
+
+            const delta = Math.min(currentTime - lastTime, 50);
+
+            lastTime = currentTime;
+
+            if (!paused) {
+
+                planetsConfig.forEach(planet => {
+
+                    planet.angle += planet.speed * animationSpeed * delta * 0.00015;
+
+                    const x = Math.cos(planet.angle) * planet.radius;
+
+                    const y = Math.sin(planet.angle) * planet.radius;
+
+                    planet.el.style.transform = `translate(${x}px, ${y}px)`;
+
+                });
+
+            }
+
+            requestAnimationFrame(animate);
+
+        }
+
+        requestAnimationFrame(animate);
+
+        const pauseButton = document.getElementById("pauseButton");
+
+        pauseButton.addEventListener("click", () => {
+
+            paused = !paused;
+
+            pauseButton.textContent = paused ? "Play" : "Pause";
+
+        });
+
+        document.getElementById("speedSelect").addEventListener("change", (e) => {
+
+            animationSpeed = Number(e.target.value);
+
+        });
+
+        const orbitButton = document.getElementById("orbitButton");
+
+        orbitButton.addEventListener("click", () => {
+
+            solarSystemEl.classList.toggle("hide-orbits");
+
+            orbitButton.textContent = solarSystemEl.classList.contains("hide-orbits") ? "Show Orbits" : "Toggle Orbits";
+
+        });
+
+        const quizQuestions = [
+
+            { question: "Which planet is the largest in our solar system?", options: ["Earth", "Jupiter", "Saturn", "Neptune"], answer: "Jupiter" },
+
+            { question: "What gives Mars its characteristic red color?", options: ["Iron minerals in the soil", "Red vegetation", "Solar reflection", "Volcanic activity"], answer: "Iron minerals in the soil" },
+
+            { question: "Which planet is famous for having the most prominent ring system?", options: ["Uranus", "Jupiter", "Saturn", "Neptune"], answer: "Saturn" },
+
+            { question: "Which planet orbits closest to the Sun?", options: ["Venus", "Mercury", "Earth", "Mars"], answer: "Mercury" }
+
+        ];
+
+        let currentQ = 0;
+
+        let score = 0;
+
+        const qEl = document.getElementById("quizQuestion");
+
+        const optEl = document.getElementById("quizOptions");
+
+        const resEl = document.getElementById("quizResult");
+
+        function loadQuizQuestion() {
+
+            const q = quizQuestions[currentQ];
+
+            qEl.textContent = q.question;
+
+            optEl.innerHTML = "";
+
+            resEl.textContent = "";
+
+            q.options.forEach(opt => {
+
+                const btn = document.createElement("button");
+
+                btn.className = "quiz-btn";
+
+                btn.textContent = opt;
+
+                btn.addEventListener("click", () => {
+
+                    if (opt === q.answer) {
+
+                        score++;
+
+                        resEl.textContent = "Correct!";
+
+                        resEl.style.color = "#22c55e";
+
+                    } else {
+
+                        resEl.textContent = `Incorrect. The correct answer was: ${q.answer}`;
+
+                        resEl.style.color = "#ef4444";
+
+                    }
+
+                    currentQ++;
+
+                    setTimeout(() => {
+
+                        if (currentQ < quizQuestions.length) {
+
+                            loadQuizQuestion();
+
+                        } else {
+
+                            qEl.textContent = "Quiz Complete!";
+
+                            optEl.innerHTML = "";
+
+                            resEl.textContent = `You scored ${score} out of ${quizQuestions.length}.`;
+
+                            currentQ = 0;
+
+                            score = 0;
+
+                        }
+
+                    }, 1500);
+
+                });
+
+                optEl.appendChild(btn);
+
+            });
+
+        }
+
+        loadQuizQuestion();
+
+    </script>
+
+</body>
+
+</html>
