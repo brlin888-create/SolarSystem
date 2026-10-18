@@ -1,33 +1,34 @@
 # Solar System Explorer
 
-An interactive educational website designed to explore the Solar System, learn about the eight planets, and understand their positions and movements around the Sun!
+An interactive educational website designed for the Stardance challenge to understand their positions and movements around the Sun!
 
-This project is designed for anyone interested in astronomy who wants to learn about our planetary neighborhood through interactive visualizations rather than static information alone. Users can watch the planets orbit the Sun, adjust animation speed, reveal planet labels, access scientific facts, and test their knowledge through an integrated quiz. The entire website is built using HTML, CSS, and JavaScript, combining web page structure, visual styling, and interactive programming into a single file, making it accessible to run and modify without installing additional software or external libraries.
+This project is designed for anyone interested in astronomy who wants to learn about our planetary neighborhood. The entire website is built using HTML, CSS, and JavaScript, which makes it accessible to run and modify without installing additional software or external libraries.
 
 # Quick Start:
 
-If you want to explore this website, open the `solarsystem.html` file in a modern web browser such as Google Chrome, Microsoft Edge, or Firefox. Simply double-clicking the file should launch the website, allowing you to access the interactive Solar System visualization, planet information, and knowledge quiz immediately.
-
-If you want to publish the project online, you can upload the file to a GitHub repository and enable **GitHub Pages** in the repository's settings. This allows you to share the website through a public link that others can access without downloading the source code.
+If you want to try out the website, make sure you use the link: https://brlin888-create.github.io/SolarSystem/. There you can try out the project and hope you like it (nothing to download!)
 
 # Core Features:
 
-**Interactive Solar System Visualization** Built using HTML elements and CSS positioning, the visualization displays the Sun at the center with eight planets arranged around it. Circular orbit paths provide a visual reference for planetary movement, while individual CSS styles distinguish each planet through its size and color. Saturn includes a custom CSS pseudo-element to represent its ring system. The visualization is designed for educational purposes, with orbital distances, sizes, and speeds represented as visual approximations rather than exact astronomical scale.
+**Interactive Planet Simulation**
+An interactive simulation where you change pause, change speed, or open labels for the different planets in our solar system. This project is designed so that you can visually see the different speeds of the planets in our solar system which allows the learning process to be easily done. Additionally, there are information present next to the simulation so you can visually see and learn at the same time. By selecting a planet, you can learn more information about the specific planet. 
 
-**Dynamic Planetary Animation Engine** Utilizes JavaScript's `requestAnimationFrame()` function to continuously update the position of each planet. Trigonometric functions, including `Math.cos()` and `Math.sin()`, calculate horizontal and vertical positions along circular paths around the Sun. Each planet is assigned an individual orbital radius, speed, and starting angle, allowing the animation to represent different planetary movement rates while keeping the Sun at the center.
+<img width="920" height="708" alt="image" src="https://github.com/user-attachments/assets/c00333a6-2108-442e-948c-85f1c836a7a7" />
 
-**Real-Time Animation Controls** Features interactive controls that allow users to pause or resume planetary movement, adjust animation speed to 0.5×, 1×, 2×, or 4×, and toggle planet labels on or off. JavaScript event listeners respond to button clicks and selection changes, updating the animation and interface without reloading the webpage.
 
-**Dynamic Planet Information System** Stores planetary information in a structured JavaScript object containing each planet's classification, diameter, day length, moon information, and a scientific fact. A reusable `showPlanet()` function updates the information panel whenever a user selects a planet. The Sun is also interactive and displays its own information, allowing users to explore the central star as well as the eight planets.
+**Planets**
+This is where you can simply view through detailed descriptions about the different planets. This includes mercury, venus, earth, mars, jupiter, saturn, uranus, neptune. Each planet has a specific description such as if it is a terrestrial planet, gas giant, or an ice giant.
 
-**Automated Star Generation** Creates 100 stars dynamically using JavaScript's `document.createElement()` and `Math.random()` functions. Each star receives a randomized horizontal position, vertical position, and opacity, producing a varied background without requiring external image files. The stars are generated when the page loads and remain in place while the planetary animation runs.
+<img width="934" height="611" alt="image" src="https://github.com/user-attachments/assets/3db37a9f-bfde-42ec-8bbd-bdc36fcaccba" />
 
-**Dynamic Planet Index** Automatically generates a planet directory from the same JavaScript data object used by the information system. Using `Object.keys()` and `forEach()`, the website creates an individual entry for each planet, displaying its name and classification. Selecting an entry updates the information panel and smoothly scrolls the page back to the interactive visualization, connecting the reference directory with the main exploration interface.
+**Quiz**
+In the section Quiz/Knowledge Check, there will be many questions linked with specific questions to allow the user to better understand what they have just learned. By clicking a choice, it will either show up as correct or incorrect, further allowing the user to learn from their mistakes.
 
-**Knowledge Assessment and Scoring System** Implements an interactive multiple-choice quiz containing four astronomy questions about planetary size, planetary identification, Saturn's rings, and distance from the Sun. JavaScript stores the questions, answer choices, and correct answers in an array of objects. The quiz checks user selections, provides immediate feedback, tracks correct responses, and displays a final score after all four questions have been answered before restarting the question sequence.
+<img width="832" height="469" alt="image" src="https://github.com/user-attachments/assets/93d4e4cd-06ce-4166-b7cb-2bb54d2c3dee" />
 
-**Responsive Web Interface** Uses CSS Flexbox, CSS Grid, flexible sizing, and `@media` queries to adapt the layout to different screen sizes. Navigation links, planet information cards, quiz options, and animation controls adjust to available screen space. On smaller screens, the orbital display and orbit paths are reduced to help the visualization fit mobile devices. Smooth scrolling and interactive hover effects provide additional navigation and interface feedback.
+**About**
+A very quick section only about the background of the project such as how it was submitted for the Stardance challenge and where the information is sourced.
 
-**Self-Contained Web Architecture** Combines HTML structure, CSS styling, and JavaScript functionality in a single `solarsystem.html` file. The project does not require a backend server, database, external JavaScript framework, or third-party library to run its core features. This structure makes the website straightforward to share, host through static website services, and modify as new educational features are added.
+<img width="845" height="380" alt="image" src="https://github.com/user-attachments/assets/f868f525-198f-40ca-8b0f-f3906d414270" />
 
 Have fun exploring the Solar System and enjoy the learning experience!
