@@ -13,7 +13,7 @@
 
     <style>
 
-        :root {
+        :root { /* Color variables for dark theme */
             --bg-deep: #090d16;
             --bg-surface: #0f172a;
             --bg-card: #1e293b;
@@ -26,13 +26,15 @@
             --btn-hover: #334155;
         }
 
-        * {
+        * 
+        {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        body {
+        body 
+        {
             background-color: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
@@ -42,83 +44,15 @@
             overflow-x: hidden;
         }
 
-        header {
+
+
+        header 
+        {
             background: #0f172a;
             border-bottom: 2px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .logo h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: -0.3px;
-        }
-
-        .logo p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 6px;
-            background: #020617;
-            padding: 6px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .tab-btn:hover {
-            color: var(--text-main);
-            background: var(--btn-hover);
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            color: #020617;
-        }
-
-        main {
-            max-width: 1200px;
-            width: 100%;
-            margin: 32px auto;
-            padding: 0 24px;
-            flex: 1;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         /* Removed vertical accent line from section headers */
@@ -144,6 +78,85 @@
             font-size: 15px;
         }
 
+        .header-container /* Removed max-width and centered the header content */
+        {
+            max-width: 1200px;
+            
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .logo p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 32px auto;
+            padding: 0 24px;
+            flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tabs /* Removed background and border from tabs container */
+        {
+            display: flex;
+            gap: 6px;
+            background: #020617;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: var(--btn-hover);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: #020617;
+        }
+
+
         .search-input {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -160,7 +173,8 @@
             border-color: var(--accent);
         }
 
-        .explorer-layout {
+        .explorer-layout /* Removed max width and centered the explorer layout planets rotate properly*/
+        {
             display: grid;
             grid-template-columns: 1fr 340px;
             gap: 24px;
@@ -181,7 +195,8 @@
             overflow: hidden;
         }
 
-        .controls-overlay {
+        .controls-overlay 
+        {
             position: absolute;
             top: 16px;
             left: 16px;
@@ -191,30 +206,6 @@
             flex-wrap: wrap;
         }
 
-        .btn {
-            background: var(--btn-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .btn:hover {
-            border-color: var(--border-hover);
-            background: var(--btn-hover);
-        }
-
-        select.btn {
-            appearance: none;
-            padding-right: 28px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23cbd5e1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: calc(100% - 8px) center;
-        }
 
         .star {
             position: absolute;
@@ -225,7 +216,8 @@
             opacity: 0.6;
         }
 
-        .sun {
+        .sun 
+        {
             position: absolute;
             left: 50%;
             top: 50%;
@@ -250,6 +242,32 @@
             transition: opacity 0.2s;
         }
 
+        .btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .btn:hover {
+            border-color: var(--border-hover);
+            background: var(--btn-hover);
+        }
+
+        select.btn /* Custom styling for select dropdowns to match buttons */
+        {
+            appearance: none;
+            padding-right: 28px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23cbd5e1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 8px) center;
+        }
+
         .hide-orbits .orbit {
             opacity: 0;
         }
@@ -263,17 +281,21 @@
             z-index: 10;
         }
 
-        .planet:hover, .planet.highlighted {
+        .planet:hover, .planet.highlighted 
+        {
             outline: 2px solid var(--accent);
         }
 
-        .planet-label {
+        .planet-label 
+        {
             position: absolute;
             top: 20px;
             left: 50%;
+            
             transform: translateX(-50%);
             color: #ffffff;
             font-size: 11px;
+            
             font-weight: 600;
             white-space: nowrap;
             background: #020617;
@@ -284,13 +306,14 @@
             border: 1px solid var(--border-color);
         }
 
-        .show-labels .planet-label {
+        .show-labels .planet-label { /* Show labels when the toggle is active */
             opacity: 1;
         }
 
         .mercury { width: 10px; height: 10px; margin: -5px 0 0 -5px; background: #a1a1aa; }
         .venus { width: 14px; height: 14px; margin: -7px 0 0 -7px; background: #fb923c; }
         .earth { width: 16px; height: 16px; margin: -8px 0 0 -8px; background: #38bdf8; }
+        
         .mars { width: 12px; height: 12px; margin: -6px 0 0 -6px; background: #f87171; }
         .jupiter { width: 26px; height: 26px; margin: -13px 0 0 -13px; background: #eab308; }
         .saturn { width: 22px; height: 22px; margin: -11px 0 0 -11px; background: #fde047; }
@@ -309,15 +332,21 @@
         .neptune { width: 18px; height: 18px; margin: -9px 0 0 -9px; background: #60a5fa; }
 
         .orbit1 { width: 90px; height: 90px; }
+        
         .orbit2 { width: 140px; height: 140px; }
         .orbit3 { width: 200px; height: 200px; }
         .orbit4 { width: 260px; height: 260px; }
+        
         .orbit5 { width: 330px; height: 330px; }
         .orbit6 { width: 400px; height: 400px; }
         .orbit7 { width: 460px; height: 460px; }
         .orbit8 { width: 520px; height: 520px; }
 
-        .inspector {
+
+
+
+        .inspector 
+        {
             background: var(--bg-surface);
             border: 2px solid var(--border-color);
             border-radius: 12px;
@@ -327,17 +356,6 @@
             gap: 18px;
         }
 
-        .inspector h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .inspector p {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
 
         .stats-grid {
             display: grid;
@@ -352,6 +370,21 @@
             border-radius: 8px;
         }
 
+        .inspector h3 
+        {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .inspector p 
+        {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+
         .stat-card span {
             display: block;
             font-size: 12px;
@@ -365,13 +398,15 @@
             color: var(--text-main);
         }
 
-        .directory-grid {
+        .directory-grid 
+        {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 16px;
         }
 
-        .directory-card {
+        .directory-card 
+        {
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -380,7 +415,9 @@
             transition: border-color 0.2s, opacity 0.2s;
         }
 
-        /* Mercury card no longer has special wide span or blue border highlight */
+        /* Mercury no longer has special wide span or blue border highlight */
+        
+        
         .directory-card:hover {
             border-color: var(--accent);
         }
@@ -411,22 +448,6 @@
             font-size: 14px;
             color: var(--text-muted);
             line-height: 1.5;
-        }
-
-        .quiz-container {
-            max-width: 650px;
-            margin: 0 auto;
-            background: var(--bg-surface);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 32px;
-        }
-
-        .quiz-question {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-main);
         }
 
         .quiz-options {
@@ -471,19 +492,42 @@
             line-height: 1.7;
         }
 
-        .about-card h3 {
+        .about-card h3 
+        {
             margin-bottom: 12px;
+            
             font-size: 20px;
             color: var(--text-main);
         }
 
-        .about-card p {
+        .about-card p 
+        {
             color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 16px;
         }
 
-        footer {
+
+        .quiz-container {
+            max-width: 650px;
+            margin: 0 auto;
+            
+            background: var(--bg-surface);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .quiz-question {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+
+        footer 
+        {
             text-align: center;
             padding: 24px;
             font-size: 13px;
@@ -495,6 +539,8 @@
 
         @media (max-width: 600px) {
             .header-container {
+                
+                
                 flex-direction: column;
                 align-items: stretch;
             }
@@ -512,11 +558,15 @@
 
     <header>
 
+
+
         <div class="header-container">
 
             <div class="logo">
 
+                
                 <h1>Solar System Explorer</h1>
+
 
                 <p>Stardance Challenge Project</p>
 
@@ -526,6 +576,7 @@
 
                 <button class="tab-btn active" data-target="explorer">Simulation</button>
 
+                
                 <button class="tab-btn" data-target="directory">Directory</button>
 
                 <button class="tab-btn" data-target="quiz">Quiz</button>
@@ -546,6 +597,8 @@
 
                 <div class="section-header-text">
 
+
+                    
                     <h2>Interactive Planet Simulation</h2>
 
                     <p>Watch a simulation of our solar system and click on any planet to learn more about it.</p>
@@ -937,7 +990,8 @@
 
         let lastTime = performance.now();
 
-        function animate(currentTime) {
+        function animate(currentTime) 
+        {
 
             const delta = Math.min(currentTime - lastTime, 50);
 
@@ -948,11 +1002,8 @@
                 planetsConfig.forEach(planet => {
 
                     planet.angle += planet.speed * animationSpeed * delta * 0.00015;
-
                     const x = Math.cos(planet.angle) * planet.radius;
-
                     const y = Math.sin(planet.angle) * planet.radius;
-
                     planet.el.style.transform = `translate(${x}px, ${y}px)`;
 
                 });
@@ -964,10 +1015,10 @@
         }
 
         requestAnimationFrame(animate);
-
         const pauseButton = document.getElementById("pauseButton");
 
-        pauseButton.addEventListener("click", () => {
+        pauseButton.addEventListener("click", () => 
+        {
 
             paused = !paused;
 
@@ -981,11 +1032,12 @@
 
         });
 
-        const orbitButton = document.getElementById("orbitButton");
+        const orbitButton = document.getElementById("orbitButton"); /* get the element orbiting*/
 
         orbitButton.addEventListener("click", () => {
 
             solarSystemEl.classList.toggle("hide-orbits");
+
 
             orbitButton.textContent = solarSystemEl.classList.contains("hide-orbits") ? "Show Orbits" : "Toggle Orbits";
 
@@ -996,6 +1048,8 @@
             { question: "Which planet is the largest in our solar system?", options: ["Earth", "Jupiter", "Saturn", "Neptune"], answer: "Jupiter" },
 
             { question: "What gives Mars its characteristic red color?", options: ["Iron minerals in the soil", "Red vegetation", "Solar reflection", "Volcanic activity"], answer: "Iron minerals in the soil" },
+
+
 
             { question: "Which planet is famous for having the most prominent ring system?", options: ["Uranus", "Jupiter", "Saturn", "Neptune"], answer: "Saturn" },
 
@@ -1008,14 +1062,13 @@
         let score = 0;
 
         const qEl = document.getElementById("quizQuestion");
-
         const optEl = document.getElementById("quizOptions");
 
         const resEl = document.getElementById("quizResult");
 
         function loadQuizQuestion() {
 
-            const q = quizQuestions[currentQ];
+            const q = quizQuestions[currentQ]; /*set const q as currentQ*/
 
             qEl.textContent = q.question;
 
@@ -1026,7 +1079,6 @@
             q.options.forEach(opt => {
 
                 const btn = document.createElement("button");
-
                 btn.className = "quiz-btn";
 
                 btn.textContent = opt;
@@ -1041,9 +1093,11 @@
 
                         resEl.style.color = "#22c55e";
 
-                    } else {
+                    } else 
+                    {
 
                         resEl.textContent = `Incorrect. The correct answer was: ${q.answer}`;
+
 
                         resEl.style.color = "#ef4444";
 
@@ -1053,16 +1107,17 @@
 
                     setTimeout(() => {
 
-                        if (currentQ < quizQuestions.length) {
+                        if (currentQ < quizQuestions.length) 
+                        {
 
                             loadQuizQuestion();
 
                         } else {
 
                             qEl.textContent = "Quiz Complete!";
-
                             optEl.innerHTML = "";
 
+                            
                             resEl.textContent = `You scored ${score} out of ${quizQuestions.length}.`;
 
                             currentQ = 0;
@@ -1080,7 +1135,7 @@
             });
 
         }
-
+        //call function
         loadQuizQuestion();
 
     </script>
