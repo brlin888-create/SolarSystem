@@ -10,25 +10,29 @@ If you want to try out the website, make sure you use the link: https://brlin888
 
 # Core Features:
 
-**Interactive Planet Simulation**
+**Simulation**
 An interactive simulation where you change pause, change speed, or open labels for the different planets in our solar system. This project is designed so that you can visually see the different speeds of the planets in our solar system which allows the learning process to be easily done. Additionally, there are information present next to the simulation so you can visually see and learn at the same time. By selecting a planet, you can learn more information about the specific planet. 
 
-<img width="920" height="708" alt="image" src="https://github.com/user-attachments/assets/c00333a6-2108-442e-948c-85f1c836a7a7" />
+<img width="1877" height="897" alt="image" src="https://github.com/user-attachments/assets/77a35b45-d65c-47a7-a5a6-2321ce4dd212" />
 
+**Directory**
+This is where you can simply view through detailed descriptions about the different planets. This includes mercury, venus, earth, mars, jupiter, saturn, uranus, neptune. Each planet has a specific description such as if it is a terrestrial planet, gas giant, or an ice giant. Additionally, a search bar is present to learn more about each planet by searching for it in the list, and you can click on the buttons to navigate the different planets.
 
-**Planets**
-This is where you can simply view through detailed descriptions about the different planets. This includes mercury, venus, earth, mars, jupiter, saturn, uranus, neptune. Each planet has a specific description such as if it is a terrestrial planet, gas giant, or an ice giant.
+<img width="1867" height="733" alt="image" src="https://github.com/user-attachments/assets/56748492-230f-4393-afdf-0e8acd09c992" />
 
-<img width="934" height="611" alt="image" src="https://github.com/user-attachments/assets/3db37a9f-bfde-42ec-8bbd-bdc36fcaccba" />
+**Calculators**
+In the section, you are able to calculate the weight of any object on these planets depending on their gravitational pull based on the mass of the object. Additionally, you are able to do a "mission log" where you log different things you write, and it will locally be saved on your computer
+
+<img width="1870" height="668" alt="image" src="https://github.com/user-attachments/assets/f1a85387-a17c-4d48-a1fa-f6f726ac46a8" />
 
 **Quiz**
-In the section Quiz/Knowledge Check, there will be many questions linked with specific questions to allow the user to better understand what they have just learned. By clicking a choice, it will either show up as correct or incorrect, further allowing the user to learn from their mistakes.
+A very short section around 10 questions where you can get quizzed about what you just learned!
 
-<img width="832" height="469" alt="image" src="https://github.com/user-attachments/assets/93d4e4cd-06ce-4166-b7cb-2bb54d2c3dee" />
+<img width="1793" height="623" alt="image" src="https://github.com/user-attachments/assets/9b933d84-1685-4293-9ce0-c6eb5a69992d" />
 
-**About**
-A very quick section only about the background of the project such as how it was submitted for the Stardance challenge and where the information is sourced.
+**Game**
+A kind of boring (lol) game where you click the rocket as many times as you can. This is kind of like cookie clicker, and the more times you click, the more points you get...
 
-<img width="845" height="380" alt="image" src="https://github.com/user-attachments/assets/f868f525-198f-40ca-8b0f-f3906d414270" />
+<img width="1869" height="658" alt="image" src="https://github.com/user-attachments/assets/308f895b-ba6c-4da0-9251-e881cf5a14e8" />
 
 Have fun exploring the Solar System and enjoy the learning experience!
