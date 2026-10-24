@@ -1,4 +1,4 @@
-# Solar System Explorer
+# Solar System Explorer  
 
 An interactive educational website designed for the Stardance challenge to understand their positions and movements around the Sun!
 
