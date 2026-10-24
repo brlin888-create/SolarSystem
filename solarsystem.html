@@ -1,198 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Solar System Explorer | Stardance Project</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-
-        /* Define color variables here */
-        :root { 
-            --bgdeep: #f1f5f9;
-            --bgsurface: #ffffff;
-            --bgcard: #e2e8f0;
-            --bordercolor: #cbd5e1;
-            --borderhover: #0284c7;
-            --textmain: #0f172a;
-            --textmuted: #475569;
-            --accent: #0284c7;
-            --btnbg: #e2e8f0;
-            --btnhover: #cbd5e1;
-        }
-
-        .sectionHeaderText h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--textmain);
-            margin-bottom: 6px;
+        :root {
+            --term-bg: #030712;
+            --term-panel: #0f172a;
+            --term-border: #0ea5e9;
+            --term-glow: rgba(14, 165, 233, 0.25);
+            --text-main: #38bdf8;
+            --text-sub: #94a3b8;
+            --accent-alert: #f43f5e;
+            --accent-ok: #10b981;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }
-
-        .headerContainer {
-            width: 100%;
-            max-width: none;
-            margin: 0;
-            padding: 16px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
+            font-family: 'Share Tech Mono', monospace;
         }
 
         body {
-            background-color: var(--bgdeep);
-            color: var(--textmain);
-            font-family: 'Inter', sans-serif;
+            background-color: var(--term-bg);
+            color: var(--text-sub);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
         }
 
-        .sectionHeaderText p {
-            color: var(--textmuted);
-            font-size: 15px;
+        /* Subtle CRT scanlines */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+            background-size: 100% 4px;
+            z-index: 999;
+            pointer-events: none;
         }
 
+        /* Splash Screen */
+        #splashScreen {
+            position: fixed;
+            inset: 0;
+            background: var(--term-bg);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            transition: opacity 0.4s ease;
+        }
+
+        #splashScreen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-card {
+            border: 2px dashed var(--term-border);
+            padding: 48px;
+            max-width: 580px;
+            background: var(--term-panel);
+            text-align: center;
+            box-shadow: 0 0 30px var(--term-glow);
+        }
+
+        .splash-card h1 {
+            color: var(--text-main);
+            font-size: 28px;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        /* Header */
         header {
-            background: #ffffff;
-            border-bottom: 2px solid var(--bordercolor);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .logo p {
-            font-size: 13px;
-            color: var(--textmuted);
-            margin-top: 2px;
-        }
-
-        .sectionHeader {
-            margin-bottom: 24px;
-            text-align: left;
+            background: var(--term-panel);
+            border-bottom: 2px solid var(--term-border);
+            padding: 16px 32px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 12px;
+            align-items: center;
+            box-shadow: 0 0 15px var(--term-glow);
         }
 
-        .logo h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--textmain);
-            letter-spacing: -0.3px;
+        .brand h1 {
+            color: var(--text-main);
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--term-border);
+            color: var(--text-sub);
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--term-border);
+            color: var(--term-bg);
+            font-weight: bold;
+            box-shadow: 0 0 12px var(--term-border);
         }
 
         main {
-            width: 100%;
-            max-width: none;
-            margin: 24px 0;
-            padding: 0 32px;
             flex: 1;
+            padding: 32px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        .tabContent {
+        .view-section {
             display: none;
         }
 
-        .tabContent.active {
+        .view-section.active {
             display: block;
         }
 
-        .tabs {
-            display: flex;
-            gap: 6px;
-            background: #f8fafc;
-            padding: 6px;
-            border-radius: 8px;
-            border: 1px solid var(--bordercolor);
-        }
-
-        .tabBtn {
-            background: transparent;
-            border: none;
-            color: var(--textmuted);
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .tabBtn:hover {
-            color: var(--textmain);
-            background: var(--btnhover);
-        }
-
-        .tabBtn.active {
-            background: var(--accent);
-            color: #ffffff;
-        }
-
-        .searchInput {
-            background: #ffffff;
-            border: 1px solid var(--bordercolor);
-            color: var(--textmain);
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            outline: none;
-            width: 220px;
-            transition: border-color 0.2s;
-        }
-
-        .searchInput:focus {
-            border-color: var(--accent);
-        }
-
-        .explorerLayout {
+        /* 3-Column Cockpit Layout */
+        .cockpit-layout {
             display: grid;
-            grid-template-columns: 320px 1fr 320px;
-            gap: 20px;
+            grid-template-columns: 300px 1fr 320px;
+            gap: 24px;
             align-items: start;
-            width: 100%;
         }
 
-        @media (max-width: 1200px) {
-            .explorerLayout {
+        @media(max-width: 1200px) {
+            .cockpit-layout {
                 grid-template-columns: 1fr;
             }
         }
 
-        .solarViewport {
-            position: relative;
-            background: #090d16;
-            border: 2px solid var(--bordercolor);
-            border-radius: 12px;
-            height: 620px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .terminal-box {
+            background: var(--term-panel);
+            border: 1px solid var(--term-border);
+            padding: 24px;
+            border-radius: 6px;
+            box-shadow: inset 0 0 15px rgba(14, 165, 233, 0.05);
+            margin-bottom: 20px;
         }
 
-        .controlsOverlay {
+        .terminal-box h3 {
+            color: var(--text-main);
+            font-size: 18px;
+            border-bottom: 1px dashed var(--term-border);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        /* Bigger metrics cards with generous spacing */
+        .metric-card {
+            background: rgba(3, 7, 18, 0.7);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .metric-card span {
+            font-size: 12px;
+            color: var(--text-sub);
+            display: block;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .metric-card strong {
+            font-size: 18px;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        /* Radar Viewport */
+        .solar-viewport {
+            position: relative;
+            background: #020617;
+            border: 2px solid var(--term-border);
+            height: 640px;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 0 20px var(--term-glow);
+            border-radius: 6px;
+        }
+
+        .viewport-controls {
             position: absolute;
             top: 16px;
             left: 16px;
-            z-index: 20;
+            z-index: 30;
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
@@ -200,133 +215,75 @@
             position: absolute;
             width: 2px;
             height: 2px;
-            background: #ffffff;
-            border-radius: 50%;
-            opacity: 0.6;
+            background: #fff;
         }
 
         .sun {
             position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 56px;
-            height: 56px;
-            margin: -28px 0 0 -28px;
+            left: 50%; top: 50%;
+            width: 60px; height: 60px;
+            margin: -30px 0 0 -30px;
             border-radius: 50%;
-            background: #f59e0b;
-            border: 2px solid #fde047;
+            background: #fbbf24;
+            box-shadow: 0 0 30px #f59e0b;
             cursor: pointer;
-            z-index: 5;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .sun.enlarged {
-            transform: translate(-50%, -50%) scale(1.8) !important;
-            z-index: 50;
-            box-shadow: 0 0 40px #f59e0b;
+            z-index: 10;
         }
 
         .orbit {
             position: absolute;
-            left: 50%;
-            top: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            left: 50%; top: 50%;
+            border: 1px dotted rgba(14, 165, 233, 0.2);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
-            transition: opacity 0.2s;
-        }
-
-        .btn {
-            background: var(--btnbg);
-            border: 1px solid var(--bordercolor);
-            color: var(--textmain);
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .btn:hover {
-            border-color: var(--borderhover);
-            background: var(--btnhover);
-        }
-
-        select.btn {
-            appearance: none;
-            padding-right: 28px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23475569' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: calc(100% - 8px) center;
-        }
-
-        .hideOrbits .orbit {
-            opacity: 0;
         }
 
         .planet {
             position: absolute;
-            left: 50%;
-            top: 50%;
+            left: 50%; top: 50%;
             border-radius: 50%;
             cursor: pointer;
-            z-index: 10;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), outline 0.2s;
+            z-index: 15;
+            transition: transform 0.2s;
+        }
+
+        .planet:hover {
+            box-shadow: 0 0 12px #fff;
         }
 
         .planet.enlarged {
-            transform: scale(2.5) !important;
+            outline: 3px solid var(--accent-alert);
+            transform: scale(2.2) !important;
             z-index: 50;
-            outline: 3px solid #fde047;
-            box-shadow: 0 0 25px rgba(2, 132, 199, 0.9);
         }
 
-        .planet:hover, .planet.highlighted {
-            outline: 2px solid var(--accent);
-        }
-
-        .planetLabel {
+        .planet-label {
             position: absolute;
-            top: 20px;
+            bottom: -22px;
             left: 50%;
             transform: translateX(-50%);
-            color: #ffffff;
             font-size: 11px;
-            font-weight: 600;
+            color: var(--text-main);
             white-space: nowrap;
-            background: #090d16;
-            padding: 3px 6px;
-            border-radius: 4px;
-            opacity: 0;
-            pointer-events: none;
-            border: 1px solid var(--bordercolor);
+            background: rgba(3, 7, 18, 0.9);
+            padding: 2px 6px;
+            display: none;
+            border: 1px solid var(--term-border);
         }
 
-        .showLabels .planetLabel {
-            opacity: 1;
-        }
+        .show-labels .planet-label { display: block; }
+        .hide-orbits .orbit { opacity: 0; }
 
-        .mercury { width: 10px; height: 10px; margin: -5px 0 0 -5px; background: #a1a1aa; }
-        .venus { width: 14px; height: 14px; margin: -7px 0 0 -7px; background: #fb923c; }
-        .earth { width: 16px; height: 16px; margin: -8px 0 0 -8px; background: #38bdf8; }
-        .mars { width: 12px; height: 12px; margin: -6px 0 0 -6px; background: #f87171; }
-        .jupiter { width: 26px; height: 26px; margin: -13px 0 0 -13px; background: #eab308; }
-        .saturn { width: 22px; height: 22px; margin: -11px 0 0 -11px; background: #fde047; }
-        .saturn::after {
-            content: "";
-            position: absolute;
-            width: 32px;
-            height: 10px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) rotate(-15deg);
-            border: 2px solid #fde047;
-            border-radius: 50%;
-        }
-        .uranus { width: 18px; height: 18px; margin: -9px 0 0 -9px; background: #2dd4bf; }
-        .neptune { width: 18px; height: 18px; margin: -9px 0 0 -9px; background: #60a5fa; }
+        /* Planet nodes */
+        .mercury { width: 10px; height: 10px; margin:-5px 0 0 -5px; background: #94a3b8; }
+        .venus { width: 14px; height: 14px; margin:-7px 0 0 -7px; background: #fb923c; }
+        .earth { width: 16px; height: 16px; margin:-8px 0 0 -8px; background: #38bdf8; }
+        .mars { width: 12px; height: 12px; margin:-6px 0 0 -6px; background: #f87171; }
+        .jupiter { width: 28px; height: 28px; margin:-14px 0 0 -14px; background: #eab308; }
+        .saturn { width: 24px; height: 24px; margin:-12px 0 0 -12px; background: #fde047; }
+        .uranus { width: 18px; height: 18px; margin:-9px 0 0 -9px; background: #2dd4bf; }
+        .neptune { width: 18px; height: 18px; margin:-9px 0 0 -9px; background: #60a5fa; }
 
         .orbit1 { width: 100px; height: 100px; }
         .orbit2 { width: 160px; height: 160px; }
@@ -337,351 +294,115 @@
         .orbit7 { width: 480px; height: 480px; }
         .orbit8 { width: 540px; height: 540px; }
 
-        .surroundPanel {
-            background: var(--bgsurface);
-            border: 2px solid var(--bordercolor);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-height: 620px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--bordercolor) var(--bgsurface);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        }
-
-        .surroundPanel::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .surroundPanel::-webkit-scrollbar-track {
-            background: var(--bgsurface);
-        }
-
-        .surroundPanel::-webkit-scrollbar-thumb {
-            background: var(--bordercolor);
-            border-radius: 3px;
-        }
-
-        .statsGrid {
+        .stats-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 12px;
+            margin-top: 16px;
         }
 
-        .statCard {
-            background: var(--bgcard);
-            border: 1px solid var(--bordercolor);
-            padding: 10px 12px;
-            border-radius: 8px;
+        .stat-box {
+            background: rgba(3, 7, 18, 0.7);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 12px 14px;
+            border-radius: 4px;
         }
 
-        .surroundPanel h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--textmain);
-        }
-
-        .surroundPanel p {
-            font-size: 13px;
-            color: var(--textmuted);
-            line-height: 1.5;
-        }
-
-        .statCard span {
+        .stat-box span {
             display: block;
             font-size: 11px;
-            color: var(--textmuted);
-            margin-bottom: 2px;
+            color: var(--text-sub);
+            margin-bottom: 4px;
         }
 
-        .statCard strong {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--textmain);
-        }
-
-        .sidePanelContent {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .directoryGrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .directoryCard {
-            background: var(--bgsurface);
-            border: 1px solid var(--bordercolor);
-            border-radius: 8px;
-            padding: 24px;
-            cursor: pointer;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .directoryCard:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .directoryCard.hidden {
-            display: none;
-        }
-
-        .directoryCard h3 {
-            font-size: 18px;
-            color: var(--textmain);
-            margin-bottom: 6px;
-        }
-
-        .directoryCard .badge {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            background: #f1f5f9;
-            color: var(--accent);
-            padding: 4px 8px;
-            border: 1px solid var(--bordercolor);
-            border-radius: 4px;
-            margin-bottom: 12px;
-        }
-
-        .directoryCard p {
+        .stat-box strong {
             font-size: 14px;
-            color: var(--textmuted);
-            line-height: 1.5;
+            color: var(--text-main);
         }
 
-        .quizOptions {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .search-input {
+            width: 100%;
+            background: var(--term-bg);
+            border: 1px solid var(--term-border);
+            color: var(--text-main);
+            padding: 10px 14px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            outline: none;
+            margin-top: 10px;
             margin-bottom: 20px;
-        }
-
-        .quizBtn {
-            background: var(--bgsurface);
-            border: 1px solid var(--bordercolor);
-            color: var(--textmain);
-            padding: 16px 20px;
-            border-radius: 8px;
-            text-align: left;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .quizBtn:hover {
-            border-color: var(--accent);
-            background: #f8fafc;
-        }
-
-        .quizResult {
-            font-size: 15px;
-            color: var(--textmuted);
-            font-weight: 600;
-            min-height: 24px;
-        }
-
-        .aboutCard {
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            background: var(--bgsurface);
-            border: 2px solid var(--bordercolor);
-            border-radius: 12px;
-            padding: 48px;
-            line-height: 1.8;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        .aboutCard h3 {
-            margin-bottom: 16px;
-            font-size: 24px;
-            color: var(--textmain);
-        }
-
-        .aboutCard p {
-            color: var(--textmuted);
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .quizContainer {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--bgsurface);
-            border: 2px solid var(--bordercolor);
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        .quizQuestion {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: var(--textmain);
-        }
-
-        .gameContainer {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--bgsurface);
-            border: 2px solid var(--bordercolor);
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        .gameTarget {
-            font-size: 48px;
-            cursor: pointer;
-            margin: 40px auto;
-            user-select: none;
-            display: inline-block;
-            transition: transform 0.1s;
-        }
-
-        .gameTarget:active {
-            transform: scale(0.9);
         }
 
         footer {
             text-align: center;
-            padding: 24px;
+            padding: 20px;
             font-size: 13px;
-            color: var(--textmuted);
-            border-top: 2px solid var(--bordercolor);
-            background: #ffffff;
-            margin-top: auto;
+            border-top: 2px solid var(--term-border);
+            background: var(--term-panel);
+            color: var(--text-sub);
         }
-
-        @media (max-width: 600px) {
-            .headerContainer {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .tabs {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-        }
-
     </style>
-
 </head>
-
 <body>
 
-    <header>
-
-        <div class="headerContainer">
-
-            <div class="logo">
-
-                <h1>Solar System Explorer</h1>
-
-                <p>Stardance Challenge Project</p>
-
-            </div>
-
-            <nav class="tabs">
-
-                <button class="tabBtn active" data-target="explorer">Simulation</button>
-
-                <button class="tabBtn" data-target="directory">Directory</button>
-
-                <button class="tabBtn" data-target="quiz">Quiz</button>
-
-                <button class="tabBtn" data-target="game">Game</button>
-
-                <button class="tabBtn" data-target="about">About</button>
-
-            </nav>
-
+    <!-- Splash Mission Screen -->
+    <div id="splashScreen">
+        <div class="splash-card">
+            <h1>Solar System Explorer</h1>
+            <p style="margin-bottom: 24px; color: var(--text-sub);">Stardance Challenge Project</p>
+            <button class="tab-btn" id="initBtn" style="font-size: 16px; padding: 12px 28px;">[ LAUNCH INTERFACE ]</button>
         </div>
+    </div>
 
+    <header>
+        <div class="brand">
+            <h1>Solar System Explorer</h1>
+            <p style="font-size: 12px; color: var(--text-sub);">Stardance Challenge Project</p>
+        </div>
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-target="explorer">Simulation</button>
+            <button class="tab-btn" data-target="directory">Directory</button>
+            <button class="tab-btn" data-target="tools">Calculators</button>
+            <button class="tab-btn" data-target="quiz">Quiz</button>
+            <button class="tab-btn" data-target="game">Game</button>
+        </nav>
     </header>
 
     <main>
-
-        <section id="explorer" class="tabContent active">
-
-            <div class="sectionHeader">
-
-                <div class="sectionHeaderText">
-
-                    <h2>Interactive Planet Simulation</h2>
-
-                    <p>Watch a simulation of our solar system and click on any planet to learn more about it.</p>
-
-                </div>
-
-            </div>
-
-            <div class="explorerLayout">
-
-                <div class="surroundPanel">
-                    <div class="sidePanelContent">
-                        <h3>Quick Navigation</h3>
-                        <p>Select any body in the simulation center to view live telemetry and deep facts.</p>
-                        <div class="statCard">
-                            <span>System Status</span>
-                            <strong>Operational</strong>
+        <!-- SIMULATION VIEW -->
+        <section id="explorer" class="view-section active">
+            <div class="cockpit-layout">
+                <!-- Left Column: System Metrics (Engine Algorithm removed, remaining 3 cards made bigger & spaced out) -->
+                <div class="terminal-box">
+                    <h3>System Metrics</h3>
+                    <div style="margin-top: 16px;">
+                        <div class="metric-card">
+                            <span>CORE STATUS</span>
+                            <strong style="color: var(--accent-ok);">OPERATIONAL</strong>
                         </div>
-                        <div class="statCard">
-                            <span>Orbit Physics</span>
-                            <strong>Keplerian Mode</strong>
-                        </div>
-                        <div class="statCard">
-                            <span>Interactive Target</span>
+                        <div class="metric-card">
+                            <span>ACTIVE TARGET</span>
                             <strong id="sideTargetIndicator">The Sun</strong>
                         </div>
-                        <div class="statCard">
-                            <span>Simulation Scale</span>
-                            <strong>Dynamic Artistic</strong>
-                        </div>
-                        <div class="statCard">
-                            <span>Time Acceleration</span>
-                            <strong>Active Realtime</strong>
+                        <div class="metric-card">
+                            <span>CLOCK CYCLE</span>
+                            <strong id="clockCounter">00:00</strong>
                         </div>
                     </div>
                 </div>
 
-                <div class="solarViewport" id="solarSystem">
-
-                    <div class="controlsOverlay">
-
-                        <button class="btn" id="pauseButton">Pause</button>
-
-                        <select class="btn" id="speedSelect">
-
+                <!-- Center Column: Viewport -->
+                <div class="solar-viewport" id="solarSystem">
+                    <div class="viewport-controls">
+                        <button class="tab-btn" id="pauseButton">Pause</button>
+                        <select class="tab-btn" id="speedSelect" style="background: var(--term-panel);">
                             <option value="0.5">0.5x</option>
-
                             <option value="1" selected>1x Speed</option>
-
                             <option value="2">2x</option>
-
                             <option value="4">4x</option>
-
                         </select>
-
-                        <button class="btn" id="labelButton">Toggle Labels</button>
-
-                        <button class="btn" id="orbitButton">Toggle Orbits</button>
-
+                        <button class="tab-btn" id="labelButton">Toggle Labels</button>
+                        <button class="tab-btn" id="orbitButton">Toggle Orbits</button>
                     </div>
 
                     <div class="orbit orbit1"></div>
@@ -694,222 +415,183 @@
                     <div class="orbit orbit8"></div>
 
                     <div class="sun" id="sun">
-                        <span class="planetLabel">Sun</span>
+                        <span class="planet-label">Sun</span>
                     </div>
                     <div class="planet mercury" data-name="Mercury">
-                        <span class="planetLabel">Mercury</span>
+                        <span class="planet-label">Mercury</span>
                     </div>
                     <div class="planet venus" data-name="Venus">
-                        <span class="planetLabel">Venus</span>
+                        <span class="planet-label">Venus</span>
                     </div>
                     <div class="planet earth" data-name="Earth">
-                        <span class="planetLabel">Earth</span>
+                        <span class="planet-label">Earth</span>
                     </div>
                     <div class="planet mars" data-name="Mars">
-                        <span class="planetLabel">Mars</span>
+                        <span class="planet-label">Mars</span>
                     </div>
                     <div class="planet jupiter" data-name="Jupiter">
-                        <span class="planetLabel">Jupiter</span>
+                        <span class="planet-label">Jupiter</span>
                     </div>
                     <div class="planet saturn" data-name="Saturn">
-                        <span class="planetLabel">Saturn</span>
+                        <span class="planet-label">Saturn</span>
                     </div>
                     <div class="planet uranus" data-name="Uranus">
-                        <span class="planetLabel">Uranus</span>
+                        <span class="planet-label">Uranus</span>
                     </div>
                     <div class="planet neptune" data-name="Neptune">
-                        <span class="planetLabel">Neptune</span>
+                        <span class="planet-label">Neptune</span>
                     </div>
-
                 </div>
 
-                <div class="surroundPanel" id="infoPanel">
-
+                <!-- Right Column: Info Panel -->
+                <div class="terminal-box" id="infoPanel">
                     <h3 id="infoName">The Sun</h3>
-
-                    <p id="infoFact">The star at the center of our solar system, providing gravitational pull and energy to keep everything in orbit.</p>
+                    <p id="infoFact" style="font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px;">The star at the center of our solar system, providing gravitational pull and energy to keep everything in orbit</p>
                     
-                    <div class="statsGrid">
-
-                        <div class="statCard">
+                    <div class="stats-grid">
+                        <div class="stat-box">
                             <span>Classification</span>
                             <strong id="infoType">Star</strong>
                         </div>
-
-                        <div class="statCard">
+                        <div class="stat-box">
                             <span>Diameter</span>
                             <strong id="infoDiameter">1,391,000 km</strong>
                         </div>
-
-                        <div class="statCard">
+                        <div class="stat-box">
                             <span>Rotation</span>
                             <strong id="infoDay">25 to 35 Days</strong>
                         </div>
-
-                        <div class="statCard">
+                        <div class="stat-box">
                             <span>Moons</span>
                             <strong id="infoMoons">0</strong>
                         </div>
-
-                        <div class="statCard">
+                        <div class="stat-box">
                             <span>Surface Temperature</span>
                             <strong id="infoTemp">5,500 degrees C</strong>
                         </div>
-
-                        <div class="statCard">
+                        <div class="stat-box">
                             <span>Composition</span>
                             <strong id="infoCompos">Hydrogen and Helium</strong>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
 
-        <section id="directory" class="tabContent">
-
-            <div class="sectionHeader">
-
-                <div class="sectionHeaderText">
-
-                    <h2>Planetary Directory</h2>
-
-                    <p>Browse through detailed descriptions of each body in our solar system.</p>
-
-                </div>
-
-                <input type="text" id="planetSearch" class="searchInput" placeholder="Search planet...">
-
+        <!-- DIRECTORY VIEW -->
+        <section id="directory" class="view-section">
+            <div class="terminal-box" style="margin-bottom: 24px;">
+                <h3>Search bar</h3>
+                <input type="text" id="planetSearch" class="search-input" placeholder="Search planet...">
             </div>
-
-            <div class="directoryGrid" id="planetIndex"></div>
-
+            <div id="planetIndex" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;"></div>
         </section>
 
-        <section id="quiz" class="tabContent">
-
-            <div class="sectionHeader">
-
-                <div class="sectionHeaderText">
-
-                    <h2>Knowledge Check</h2>
-
-                    <p>Test your understanding of orbital and planetary facts.</p>
-
+        <!-- CALCULATORS VIEW -->
+        <section id="tools" class="view-section">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <div class="terminal-box">
+                    <h3>Planetary Weight Calculator</h3>
+                    <p style="font-size: 13px; margin-bottom: 16px;">Calculate your gravitational weight across different celestial bodies</p>
+                    <label style="font-size: 12px; color: var(--text-main); display: block; margin-bottom: 6px;">Earth Weight (kg):</label>
+                    <input type="number" id="userWeightInput" class="search-input" value="70">
+                    <div id="weightResults" style="display: flex; flex-direction: column; gap: 8px; margin-top: 16px;"></div>
                 </div>
-
+                <div class="terminal-box">
+                    <h3>Mission Log</h3>
+                    <p style="font-size: 13px; margin-bottom: 16px;">Record exploration notes to local session memory</p>
+                    <textarea id="missionLogInput" class="search-input" rows="6" placeholder="Type notes here..."></textarea>
+                    <button class="tab-btn" id="saveLogBtn" style="margin-top: 10px;">Save Entry</button>
+                    <p id="logStatus" style="font-size: 12px; color: var(--accent-ok); margin-top: 10px;"></p>
+                </div>
             </div>
-
-            <div class="quizContainer">
-
-                <div class="quizQuestion" id="quizQuestion">Loading question...</div>
-
-                <div class="quizOptions" id="quizOptions"></div>
-
-                <div class="quizResult" id="quizResult"></div>
-
-            </div>
-
         </section>
 
-        <section id="game" class="tabContent">
-
-            <div class="sectionHeader">
-
-                <div class="sectionHeaderText">
-
-                    <h2>Space Clicker Game</h2>
-
-                    <p>Click the rocket ship as fast as you can to score points.</p>
-
-                </div>
-
+        <!-- QUIZ VIEW -->
+        <section id="quiz" class="view-section">
+            <div class="terminal-box" style="max-width: 800px; margin: 0 auto; padding: 40px;">
+                <h3>Knowledge Check</h3>
+                <p id="quizQuestion" style="font-size: 18px; color: var(--text-main); margin: 24px 0;"></p>
+                <div id="quizOptions" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;"></div>
+                <div id="quizResult" style="font-size: 15px; font-weight: bold; min-height: 24px;"></div>
             </div>
-
-            <div class="gameContainer">
-                <h3 style="font-size: 22px; margin-bottom: 10px;">Score: <span id="gameScore">0</span></h3>
-                <p style="color: var(--textmuted); margin-bottom: 20px;">Click the rocket below to launch points!</p>
-                <div class="gameTarget" id="gameTarget">🚀</div>
-                <div style="margin-top: 20px;">
-                    <button class="btn" id="resetGameBtn">Reset Score</button>
-                </div>
-            </div>
-
         </section>
 
-        <section id="about" class="tabContent">
-
-            <div class="sectionHeader">
-
-                <div class="sectionHeaderText">
-
-                    <h2>About the Project</h2>
-
-                    <p>Learn more about the intent and background of this explorer.</p>
-
-                </div>
-
+        <!-- GAME VIEW -->
+        <section id="game" class="view-section">
+            <div class="terminal-box" style="max-width: 700px; margin: 0 auto; text-align: center; padding: 40px;">
+                <h3>Space Clicker Game</h3>
+                <p style="font-size: 15px; margin: 20px 0;">Click the rocket ship as fast as you can to score points</p>
+                <div style="font-size: 36px; color: var(--text-main); margin-bottom: 16px;">Score: <span id="gameScore">0</span></div>
+                <div id="gameTarget" style="font-size: 60px; cursor: pointer; user-select: none; margin: 30px 0;">🚀</div>
+                <button class="tab-btn" id="resetGameBtn">Reset Score</button>
             </div>
-
-            <div class="aboutCard">
-
-                <h3>Stardance Challenge</h3>
-
-                <p>This web application was created as an educational interactive exhibit for the Stardance challenge. It utilizes a simulation to provide a way for people to understand how the planets orbit and make learning more engaging!</p>
-
-                <p>All statistics and information are derived from standard planetary science reference materials.</p>
-
-            </div>
-
         </section>
-
     </main>
 
     <footer>
-
-        Solar System Explorer &bull; Built for the Stardance Challenge
-
+        Solar System Explorer - A Stardance Challenge Project
     </footer>
 
     <script>
+        // Web Audio beep generator
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBeep(freq = 440, duration = 0.05) {
+            if (!audioCtx) return;
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
 
-        // Setup tab switching behavior easily
-        const tabList = document.querySelectorAll('.tabBtn');
-        const contentList = document.querySelectorAll('.tabContent');
+        document.getElementById('initBtn').addEventListener('click', () => {
+            playBeep(880, 0.1);
+            document.getElementById('splashScreen').classList.add('fade-out');
+        });
 
-        tabList.forEach(btn => {
+        // Tab Navigation
+        const tabs = document.querySelectorAll('.tab-btn[data-target]');
+        const sections = document.querySelectorAll('.view-section');
+
+        tabs.forEach(btn => {
             btn.addEventListener('click', () => {
-                tabList.forEach(b => b.classList.remove('active'));
-                contentList.forEach(c => c.classList.remove('active'));
+                playBeep(600, 0.04);
+                tabs.forEach(b => b.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
                 btn.classList.add('active');
                 document.getElementById(btn.dataset.target).classList.add('active');
             });
         });
 
-        // Store planet facts and info here
+        // Planetary Dataset (Original facts, no trailing periods)
         const planetDataMap = {
-            Mercury: { type: "Terrestrial planet", diameter: "4,879 km", day: "58.6 Days", moons: "0", temp: "430 degrees C Day / 180 degrees C Night", compos: "Oxygen, Sodium, Hydrogen", fact: "The closest planet to the Sun and experiences extreme temperature fluctuations." },
-            Venus: { type: "Terrestrial planet", diameter: "12,104 km", day: "243 Days", moons: "0", temp: "465 degrees C", compos: "Carbon Dioxide, Nitrogen", fact: "Hottest planet in the solar system from runaway greenhouse effect." },
-            Earth: { type: "Terrestrial planet", diameter: "12,742 km", day: "24 Hours", moons: "1", temp: "15 degrees C Average", compos: "Nitrogen, Oxygen, Argon", fact: "The only known astronomical object confirmed to harbor life." },
-            Mars: { type: "Terrestrial planet", diameter: "6,779 km", day: "24.6 Hours", moons: "2", temp: "-60 degrees C Average", compos: "Carbon Dioxide, Nitrogen, Argon", fact: "The Red Planet, home to Olympus Mons, the largest volcano in the system." },
-            Jupiter: { type: "Gas giant", diameter: "139,820 km", day: "9.9 Hours", moons: "95 plus", temp: "-110 degrees C", compos: "Hydrogen, Helium", fact: "Massive gas giant featuring the iconic Great Red Spot storm." },
-            Saturn: { type: "Gas giant", diameter: "116,460 km", day: "10.7 Hours", moons: "146", temp: "-140 degrees C", compos: "Hydrogen, Helium", fact: "Known for its extensive, complex ring system mostly of ice." },
-            Uranus: { type: "Ice giant", diameter: "50,724 km", day: "17.2 Hours", moons: "28", temp: "-195 degrees C", compos: "Hydrogen, Helium, Methane", fact: "An ice giant that uniquely rotates almost completely on its side." },
-            Neptune: { type: "Ice giant", diameter: "49,244 km", day: "16.1 Hours", moons: "16", temp: "-200 degrees C", compos: "Hydrogen, Helium, Methane", fact: "The windiest planet in our system with deep atmospheric bands." }
+            Mercury: { type: "Terrestrial planet", diameter: "4,879 km", day: "58.6 Days", moons: "0", temp: "430 degrees C Day / 180 degrees C Night", compos: "Oxygen, Sodium, Hydrogen", fact: "The closest planet to the Sun and experiences extreme temperature fluctuations" },
+            Venus: { type: "Terrestrial planet", diameter: "12,104 km", day: "243 Days", moons: "0", temp: "465 degrees C", compos: "Carbon Dioxide, Nitrogen", fact: "Hottest planet in the solar system from runaway greenhouse effect" },
+            Earth: { type: "Terrestrial planet", diameter: "12,742 km", day: "24 Hours", moons: "1", temp: "15 degrees C Average", compos: "Nitrogen, Oxygen, Argon", fact: "The only known astronomical object confirmed to harbor life" },
+            Mars: { type: "Terrestrial planet", diameter: "6,779 km", day: "24.6 Hours", moons: "2", temp: "-60 degrees C Average", compos: "Carbon Dioxide, Nitrogen, Argon", fact: "The Red Planet, home to Olympus Mons, the largest volcano in the system" },
+            Jupiter: { type: "Gas giant", diameter: "139,820 km", day: "9.9 Hours", moons: "95 plus", temp: "-110 degrees C", compos: "Hydrogen, Helium", fact: "Massive gas giant featuring the iconic Great Red Spot storm" },
+            Saturn: { type: "Gas giant", diameter: "116,460 km", day: "10.7 Hours", moons: "146", temp: "-140 degrees C", compos: "Hydrogen, Helium", fact: "Known for its extensive, complex ring system mostly of ice" },
+            Uranus: { type: "Ice giant", diameter: "50,724 km", day: "17.2 Hours", moons: "28", temp: "-195 degrees C", compos: "Hydrogen, Helium, Methane", fact: "An ice giant that uniquely rotates almost completely on its side" },
+            Neptune: { type: "Ice giant", diameter: "49,244 km", day: "16.1 Hours", moons: "16", temp: "-200 degrees C", compos: "Hydrogen, Helium, Methane", fact: "The windiest planet in our system with deep atmospheric bands" }
         };
 
-        // Render background stars in viewport
+        // Background stars
         const viewEl = document.getElementById("solarSystem");
-        for (let i = 0; i < 70; i++) {
-            const starItem = document.createElement("div");
-            starItem.className = "star";
-            starItem.style.left = Math.random() * 100 + "%";
-            starItem.style.top = Math.random() * 100 + "%";
-            starItem.style.opacity = 0.2 + Math.random() * 0.6;
-            viewEl.appendChild(starItem);
+        for (let i = 0; i < 60; i++) {
+            const s = document.createElement("div");
+            s.className = "star";
+            s.style.left = Math.random() * 100 + "%";
+            s.style.top = Math.random() * 100 + "%";
+            s.style.opacity = 0.2 + Math.random() * 0.6;
+            viewEl.appendChild(s);
         }
 
         const nameBox = document.getElementById("infoName");
@@ -922,8 +604,8 @@
         const composBox = document.getElementById("infoCompos");
         const sideTargetIndicator = document.getElementById("sideTargetIndicator");
 
-        // Display selected body info here
         function showPlanetInfo(nameVal, dataObj) {
+            playBeep(750, 0.05);
             nameBox.textContent = nameVal;
             factBox.textContent = dataObj.fact;
             typeBox.textContent = dataObj.type;
@@ -952,11 +634,10 @@
                 moons: "0",
                 temp: "5,500 degrees C",
                 compos: "Hydrogen and Helium",
-                fact: "The star at the center of our solar system, providing gravitational pull and energy to keep everything in orbit."
+                fact: "The star at the center of our solar system, providing gravitational pull and energy to keep everything in orbit"
             });
         });
 
-        // Config list for orbits
         const planetConfigList = [
             { name: "Mercury", el: document.querySelector(".mercury"), radius: 50, speed: 4.15, angle: 0 },
             { name: "Venus", el: document.querySelector(".venus"), radius: 80, speed: 3.25, angle: 1 },
@@ -976,68 +657,63 @@
             });
         });
 
-        // Build directory cards dynamically
+        // Directory cards
         const indexContainer = document.getElementById("planetIndex");
         Object.entries(planetDataMap).forEach(([keyName, dataVal]) => {
             const cardItem = document.createElement("div");
-            cardItem.className = "directoryCard";
+            cardItem.className = "terminal-box";
+            cardItem.style.cursor = "pointer";
             cardItem.dataset.name = keyName.toLowerCase();
             cardItem.innerHTML = `
-                <h3>${keyName}</h3>
-                <span class="badge">${dataVal.type}</span>
-                <p><strong>Diameter:</strong> ${dataVal.diameter} | <strong>Moons:</strong> ${dataVal.moons}</p>
-                <p style="margin-top: 8px;">${dataVal.fact}</p>
+                <h3 style="margin-bottom: 8px;">${keyName}</h3>
+                <span style="font-size: 11px; color: var(--text-main); background: rgba(14,165,233,0.1); padding: 4px 8px; border: 1px solid var(--term-border); display: inline-block; margin-bottom: 12px;">${dataVal.type}</span>
+                <p style="font-size: 13px; color: var(--text-sub); line-height: 1.5;">${dataVal.fact}</p>
             `;
             cardItem.addEventListener("click", () => {
                 showPlanetInfo(keyName, dataVal);
-                tabList.forEach(b => b.classList.remove('active'));
-                contentList.forEach(c => c.classList.remove('active'));
-                document.querySelector('[data-target="explorer"]').classList.add('active');
-                document.getElementById('explorer').classList.add('active');
+                document.querySelector('[data-target="explorer"]').click();
             });
             indexContainer.appendChild(cardItem);
         });
 
-        // Search directory items easily
-        const searchBox = document.getElementById("planetSearch");
-        searchBox.addEventListener("input", (e) => {
+        // Search directory
+        document.getElementById("planetSearch").addEventListener("input", (e) => {
             const queryVal = e.target.value.toLowerCase().trim();
-            const cardElements = indexContainer.querySelectorAll(".directoryCard");
-            cardElements.forEach(card => {
-                const titleVal = card.dataset.name;
-                if (titleVal.includes(queryVal)) {
-                    card.classList.remove("hidden");
+            indexContainer.querySelectorAll(".terminal-box").forEach(card => {
+                if (card.dataset.name.includes(queryVal)) {
+                    card.style.display = "block";
                 } else {
-                    card.classList.add("hidden");
+                    card.style.display = "none";
                 }
             });
         });
 
+        // Animation loop with clock
         let isPaused = false;
         let speedVal = 1;
         let prevTime = performance.now();
+        let totalSec = 0;
 
-        // Run animation loop smoothly
         function runAnimation(currentTime) {
             const timeDelta = Math.min(currentTime - prevTime, 50);
             prevTime = currentTime;
 
             if (!isPaused) {
+                totalSec += (timeDelta * 0.001) * speedVal;
+                let m = Math.floor(totalSec / 60).toString().padStart(2, '0');
+                let s = Math.floor(totalSec % 60).toString().padStart(2, '0');
+                document.getElementById("clockCounter").textContent = `${m}:${s}`;
+
                 planetConfigList.forEach(planetObj => {
                     planetObj.angle += planetObj.speed * speedVal * timeDelta * 0.00015;
                     const posX = Math.cos(planetObj.angle) * planetObj.radius;
                     const posY = Math.sin(planetObj.angle) * planetObj.radius;
                     const isBig = planetObj.el.classList.contains('enlarged');
-                    if (isBig) {
-                        planetObj.el.style.transform = `translate(${posX}px, ${posY}px) scale(2.5)`;
-                    } else {
-                        planetObj.el.style.transform = `translate(${posX}px, ${posY}px)`;
-                    }
+                    planetObj.el.style.transform = isBig ? `translate(${posX}px, ${posY}px) scale(2.2)` : `translate(${posX}px, ${posY}px)`;
                 });
             }
             requestAnimationFrame(runAnimation);
         }
-
         requestAnimationFrame(runAnimation);
 
         const pauseBtn = document.getElementById("pauseButton");
@@ -1050,92 +726,98 @@
             speedVal = Number(e.target.value);
         });
 
-        const orbitBtn = document.getElementById("orbitButton");
-        orbitBtn.addEventListener("click", () => {
+        document.getElementById("orbitButton").addEventListener("click", () => {
             viewEl.classList.toggle("hideOrbits");
-            orbitBtn.textContent = viewEl.classList.contains("hideOrbits") ? "Show Orbits" : "Toggle Orbits";
         });
 
-        const labelBtn = document.getElementById("labelButton");
-        labelBtn.addEventListener("click", () => {
-            viewEl.classList.toggle("showLabels");
+        document.getElementById("labelButton").addEventListener("click", () => {
+            viewEl.classList.toggle("show-labels");
         });
 
-        // Quiz questions list here
+        // Weight calculator
+        const grav = { Mercury: 0.38, Venus: 0.91, Earth: 1.0, Mars: 0.38, Jupiter: 2.34, Saturn: 1.06, Uranus: 0.92, Neptune: 1.19 };
+        const weightInput = document.getElementById("userWeightInput");
+        const weightResults = document.getElementById("weightResults");
+
+        function updateWeights() {
+            let w = Number(weightInput.value) || 0;
+            weightResults.innerHTML = "";
+            Object.entries(grav).forEach(([b, m]) => {
+                let row = document.createElement("div");
+                row.style.display = "flex";
+                row.style.justifyContent = "space-between";
+                row.innerHTML = `<span style="font-size:13px;">${b}:</span> <strong style="color:var(--text-main);">${(w * m).toFixed(1)} kg</strong>`;
+                weightResults.appendChild(row);
+            });
+        }
+        weightInput.addEventListener("input", updateWeights);
+        updateWeights();
+
+        // Mission log
+        const logInput = document.getElementById("missionLogInput");
+        const logStatus = document.getElementById("logStatus");
+        document.getElementById("saveLogBtn").addEventListener("click", () => {
+            localStorage.setItem("stardance_log", logInput.value);
+            logStatus.textContent = "Saved to local storage";
+            setTimeout(() => { logStatus.textContent = ""; }, 2500);
+        });
+        if (localStorage.getItem("stardance_log")) {
+            logInput.value = localStorage.getItem("stardance_log");
+        }
+
+        // Quiz
         const quizList = [
             { question: "Which planet is the largest in our solar system?", options: ["Earth", "Jupiter", "Saturn", "Neptune"], answer: "Jupiter" },
             { question: "What gives Mars its characteristic red color?", options: ["Iron minerals in the soil", "Red vegetation", "Solar reflection", "Volcanic activity"], answer: "Iron minerals in the soil" },
-            { question: "Which planet is famous for having the most prominent ring system?", options: ["Uranus", "Jupiter", "Saturn", "Neptune"], answer: "Saturn" },
-            { question: "Which planet orbits closest to the Sun?", options: ["Venus", "Mercury", "Earth", "Mars"], answer: "Mercury" },
-            { question: "Which planet experiences a runaway greenhouse effect making it the hottest?", options: ["Venus", "Mercury", "Mars", "Jupiter"], answer: "Venus" },
-            { question: "Which ice giant uniquely rotates almost completely on its side?", options: ["Neptune", "Uranus", "Saturn", "Jupiter"], answer: "Uranus" }
+            { question: "Which planet is famous for having the most prominent ring system?", options: ["Uranus", "Jupiter", "Saturn", "Neptune"], answer: "Saturn" }
         ];
-
-        let indexNum = 0;
-        let totalScore = 0;
-
+        let qIdx = 0;
+        let score = 0;
         const qBox = document.getElementById("quizQuestion");
-        const optionsBox = document.getElementById("quizOptions");
-        const resultBox = document.getElementById("quizResult");
+        const optBox = document.getElementById("quizOptions");
+        const resBox = document.getElementById("quizResult");
 
-        // Load quiz questions dynamically
-        function loadQuizQuestion() {
-            const currentObj = quizList[indexNum];
-            qBox.textContent = currentObj.question;
-            optionsBox.innerHTML = "";
-            resultBox.textContent = "";
+        function loadQuiz() {
+            let item = quizList[qIdx];
+            qBox.textContent = item.question;
+            optBox.innerHTML = "";
+            resBox.textContent = "";
 
-            currentObj.options.forEach(optText => {
-                const choiceBtn = document.createElement("button");
-                choiceBtn.className = "quizBtn";
-                choiceBtn.textContent = optText;
-                choiceBtn.addEventListener("click", () => {
-                    if (optText === currentObj.answer) {
-                        totalScore++;
-                        resultBox.textContent = "Correct!";
-                        resultBox.style.color = "#16a34a";
+            item.options.forEach(opt => {
+                let b = document.createElement("button");
+                b.className = "tab-btn";
+                b.textContent = opt;
+                b.style.textAlign = "left";
+                b.addEventListener("click", () => {
+                    if (opt === item.answer) {
+                        score++;
+                        resBox.textContent = "Correct!";
+                        resBox.style.color = "var(--accent-ok)";
                     } else {
-                        resultBox.textContent = `Incorrect. The correct answer was: ${currentObj.answer}`;
-                        resultBox.style.color = "#dc2626";
+                        resBox.textContent = `Incorrect. The correct answer was: ${item.answer}`;
+                        resBox.style.color = "var(--accent-alert)";
                     }
-
-                    indexNum++;
-                    setTimeout(() => {
-                        if (indexNum < quizList.length) {
-                            loadQuizQuestion();
-                        } else {
-                            qBox.textContent = "Quiz Complete!";
-                            optionsBox.innerHTML = "";
-                            resultBox.textContent = `You scored ${totalScore} out of ${quizList.length}.`;
-                            indexNum = 0;
-                            totalScore = 0;
-                        }
-                    }, 1500);
+                    qIdx = (qIdx + 1) % quizList.length;
+                    setTimeout(loadQuiz, 1500);
                 });
-                optionsBox.appendChild(choiceBtn);
+                optBox.appendChild(b);
             });
         }
+        loadQuiz();
 
-        loadQuizQuestion();
-
-        // Game clicker logic here
-        let clickScore = 0;
-        const targetObj = document.getElementById("gameTarget");
-        const scoreBox = document.getElementById("gameScore");
-        const resetBtn = document.getElementById("resetGameBtn");
-
-        targetObj.addEventListener("click", () => {
-            clickScore++;
-            scoreBox.textContent = clickScore;
+        // Game
+        let clicks = 0;
+        const target = document.getElementById("gameTarget");
+        const scoreDisplay = document.getElementById("gameScore");
+        target.addEventListener("click", () => {
+            playBeep(1200, 0.03);
+            clicks++;
+            scoreDisplay.textContent = clicks;
         });
-
-        resetBtn.addEventListener("click", () => {
-            clickScore = 0;
-            scoreBox.textContent = clickScore;
+        document.getElementById("resetGameBtn").addEventListener("click", () => {
+            clicks = 0;
+            scoreDisplay.textContent = clicks;
         });
-
     </script>
-
 </body>
-
 </html>
