@@ -402,7 +402,6 @@
                             <option value="4">4x</option>
                         </select>
                         <button class="tab-btn" id="labelButton">Toggle Labels</button>
-                        <button class="tab-btn" id="orbitButton">Toggle Orbits</button>
                     </div>
 
                     <div class="orbit orbit1"></div>
@@ -724,10 +723,6 @@
 
         document.getElementById("speedSelect").addEventListener("change", (e) => {
             speedVal = Number(e.target.value);
-        });
-
-        document.getElementById("orbitButton").addEventListener("click", () => {
-            viewEl.classList.toggle("hideOrbits");
         });
 
         document.getElementById("labelButton").addEventListener("click", () => {
